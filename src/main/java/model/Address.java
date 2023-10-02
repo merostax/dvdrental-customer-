@@ -1,17 +1,17 @@
 package model;
 
-import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-@Entity
 @Getter
 @Setter
 @EqualsAndHashCode
+@Entity
 public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -38,10 +38,4 @@ public class Address {
     @Basic
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
-    @ManyToOne
-    @JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false)
-    private City cityByCityId;
-    @OneToMany(mappedBy = "addressByAddressId")
-    private Collection<Customer> customersByAddressId;
-
 }

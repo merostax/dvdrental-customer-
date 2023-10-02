@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
-             version="3.0">
-    <persistence-unit name="default">
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="persistent" transaction-type="JTA">
 
+        <!-- Define your entity classes here -->
         <class>model.Address</class>
         <class>model.City</class>
         <class>model.Country</class>
         <class>model.Customer</class>
         <class>model.Payment</class>
+
         <properties>
-            <property name="toplink.jdbc.url" value="jdbc:postgresql://localhost:54323/customer-db"/>
-            <property name="toplink.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="toplink.jdbc.user" value="postgres"/>
-            <property name="toplink.jdbc.password" value="secret"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:54323/customer-db"/>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.connection.username" value="postgres"/>
-            <property name="hibernate.connection.password" value="secret"/>
-            <property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost:54323/customer-db"/>
-            <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
-            <property name="openjpa.ConnectionUserName" value="postgres"/>
-            <property name="openjpa.ConnectionPassword" value="secret"/>
+            <!-- Specify the JPA provider (e.g., Hibernate) -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/customer-db"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="postgres"/>
+
+            <!-- Optional: Specify the dialect for your database -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+
+            <!-- Optional: Set up JPA provider-specific properties -->
+            <!-- For Hibernate -->
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+            <!-- For EclipseLink -->
+            <!--<property name="eclipselink.logging.level" value="FINE"/>-->
+
+            <!-- For OpenJPA -->
+            <!--<property name="openjpa.Log" value="DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=TRACE"/>-->
         </properties>
     </persistence-unit>
 </persistence>

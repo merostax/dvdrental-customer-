@@ -62,10 +62,15 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
+            <version>1.18.30</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.4.0</version> <!-- Use the latest version available -->
+            <scope>test</scope> <!-- This is a test dependency -->
+        </dependency>
     </dependencies>
 
     <build>
