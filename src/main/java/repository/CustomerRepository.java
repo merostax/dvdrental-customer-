@@ -1,6 +1,5 @@
 package repository;
 
-import laterUseTrash.dto.StoreDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
