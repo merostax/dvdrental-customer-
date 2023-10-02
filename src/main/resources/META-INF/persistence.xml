@@ -14,10 +14,10 @@
 
         <properties>
             <!-- Specify the JPA provider (e.g., Hibernate) -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/customer-db"/>
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/customer-db"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
 
             <!-- Optional: Specify the dialect for your database -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

@@ -6,7 +6,8 @@ import lombok.Setter;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.Set;
+
 
 @Entity
 @Getter
@@ -21,4 +22,7 @@ public class Country {
     private String country;
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    private Set<City> cities;
 }

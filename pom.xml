@@ -71,6 +71,11 @@
             <version>4.4.0</version> <!-- Use the latest version available -->
             <scope>test</scope> <!-- This is a test dependency -->
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.19.0</version>
+        </dependency>
     </dependencies>
 
     <build>

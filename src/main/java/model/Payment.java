@@ -18,8 +18,8 @@ public class Payment {
     @Column(name = "payment_id", nullable = false)
     private int paymentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customer customerByCustomerId;
 
     @Column(name = "staff_id", nullable = false)

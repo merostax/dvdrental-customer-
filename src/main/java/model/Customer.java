@@ -7,7 +7,6 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
 @Getter
@@ -26,8 +25,6 @@ public class Customer {
     private String lastName;
     @Column(name = "email", nullable = true, length = 50)
     private String email;
-    @Column(name = "address_id", nullable = false)
-    private int addressId;
     @Column(name = "activebool", nullable = false)
     private boolean activebool;
     @Column(name = "create_date", nullable = false)
@@ -36,5 +33,7 @@ public class Customer {
     private Timestamp lastUpdate;
     @Column(name = "active", nullable = true)
     private Integer active;
-
+    @ManyToOne
+    @JoinColumn(name = "address_id") // Specify the foreign key column
+    private Address address;
 }
