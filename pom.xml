@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.pdbm</groupId>
-    <artifactId>starter</artifactId>
+    <artifactId>customer</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
-    <name>Starter</name>
+    <name>customer</name>
     <description>Einfaches Projekt für den Start mit bootable WildFly</description>
 
     <properties>
@@ -26,6 +26,21 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>10.0.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <version>3.1-RC2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.0.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>3.50.0</version> <!-- Use the latest version -->
         </dependency>
 
         <dependency>
@@ -102,6 +117,8 @@
                         <layer>jaxrs</layer>
                         <layer>bean-validation</layer>
                         <layer>management</layer>
+                        <layer>jaxrs-server</layer>
+                        <layer>postgresql-datasource</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>

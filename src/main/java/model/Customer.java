@@ -17,7 +17,7 @@ public class Customer {
     @Id
     @Column(name = "customer_id", nullable = false)
     private int customerId;
-    @Column(name = "store_id", nullable = false)
+    @Column(name = "store_id", nullable = true)
     private int storeId;
     @Column(name = "first_name", nullable = false, length = 45)
     private String firstName;
@@ -34,6 +34,6 @@ public class Customer {
     @Column(name = "active", nullable = true)
     private Integer active;
     @ManyToOne
-    @JoinColumn(name = "address_id") // Specify the foreign key column
+    @JoinColumn(name = "address_id")
     private Address address;
 }
