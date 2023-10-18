@@ -3,12 +3,15 @@ package repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import model.Address;
+import model.Customer;
 import util.EntityManagerProvider;
 
 import java.util.List;
 
 @ApplicationScoped
+@Transactional
 public class AddressRepository {
 
     @Inject
@@ -38,5 +41,18 @@ public class AddressRepository {
         if (address != null) {
             em.remove(address);
         }
+    }
+    public long getAddressCount() {
+        EntityManager em = entityManagerProvider.getEntityManager();
+        return em.createQuery("SELECT COUNT(a) FROM Address a", Long.class).getSingleResult();
+    }
+    public boolean isAddressDeletable(Address address) {
+        EntityManager em = entityManagerProvider.getEntityManager();
+        List<Customer> customersWithSameAddress = em.createQuery(
+                        "SELECT c FROM Customer c WHERE c.address = :address", Customer.class)
+                .setParameter("address", address)
+                .getResultList();
+
+        return customersWithSameAddress.size()==0;
     }
 }

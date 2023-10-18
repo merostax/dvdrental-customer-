@@ -52,4 +52,10 @@ public class CustomerRepository {
             em.remove(customer);
         }
     }
+    @Transactional
+    public void updateCustomer(Customer customer) {
+        EntityManager em = entityManagerProvider.getEntityManager();
+        em.persist(customer);
+    }
+
 }

@@ -3,10 +3,12 @@ package repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import model.Payment;
 import util.EntityManagerProvider;
 
 @ApplicationScoped
+@Transactional
 public class PaymentRepository {
 
     @Inject

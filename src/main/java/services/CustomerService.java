@@ -8,7 +8,9 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import model.Address;
 import model.Customer;
+import repository.AddressRepository;
 import repository.CustomerRepository;
 
 import java.util.List;
@@ -20,9 +22,10 @@ import java.util.List;
 public class CustomerService {
     private Client client;
     private WebTarget storeServiceTarget;
+
     public CustomerService(){
         client = ClientBuilder.newClient();
-        this.storeServiceTarget = client.target("http://localhost:8082/store/api");
+        this.storeServiceTarget = client.target("http://localhost:8082/");
     }
 
     @Inject
@@ -46,24 +49,27 @@ public class CustomerService {
                 .path(String.valueOf(storeId))
                 .request(MediaType.APPLICATION_JSON)
                 .get();
-        System.out.println(storeResponse);
-        System.out.println(storeResponse.getEntity());
         if (storeResponse.getStatus() != Response.Status.OK.getStatusCode()) {
-            return Response.status(storeResponse.getStatus()).entity(storeResponse.getEntity()).build();
+            return Response.status(storeResponse.getStatus()).entity("Bad customer data.").build();
         }
-        Customer createdCustomer = customerRepository.createCustomer(customer, addressId, storeId);
-
+         customerRepository.createCustomer(customer, addressId, storeId);
         return Response.status(Response.Status.CREATED)
-                .entity(createdCustomer)
+                .entity("customer created.")
                 .build();
     }
-
-
-
     @DELETE
     @Path("/{id}")
     public Response deleteCustomer(@PathParam("id") int id) {
+        Customer customer = customerRepository.getCustomerById(id);
+        if (customer == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Customer not found.")
+                    .build();
+        }
         customerRepository.deleteCustomer(id);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.NO_CONTENT)
+                .entity("Customer deleted.")
+                .build();
     }
-}
+
+    }

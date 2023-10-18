@@ -33,7 +33,8 @@ public class Customer {
     private Timestamp lastUpdate;
     @Column(name = "active", nullable = true)
     private Integer active;
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "address_id")
     private Address address;
 }

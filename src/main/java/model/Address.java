@@ -28,7 +28,13 @@ public class Address {
     private String phone;
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
+    @PrePersist
+    protected void onCreate() {
+        lastUpdate = new Timestamp(System.currentTimeMillis());
+    }
+
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
 }

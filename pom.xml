@@ -6,7 +6,7 @@
     <artifactId>customer</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
-    <name>customer</name>
+    <name></name>
     <description>Einfaches Projekt für den Start mit bootable WildFly</description>
 
     <properties>
