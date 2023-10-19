@@ -36,9 +36,16 @@ public class AddressService{
 
     @GET
     @Path("/{id}")
-    public Address getAddressById(@PathParam("id") int id) {
-        return addressRepository.getAddressById(id);
+    public Response getAddressById(@PathParam("id") int id) {
+        Address address = addressRepository.getAddressById(id);
+        if (address == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Address not found.")
+                    .build();
+        }
+        return Response.ok(address).build();
     }
+
     @POST
     public Response createAddress(AddressDTO addressDTO) {
         City city = cityRepository.findCityByName(addressDTO.getCity());

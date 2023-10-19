@@ -3,10 +3,12 @@ package repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import model.Address;
 import model.Customer;
+import model.Payment;
 import util.EntityManagerProvider;
 
 import java.util.List;
@@ -53,9 +55,17 @@ public class CustomerRepository {
         }
     }
     @Transactional
-    public void updateCustomer(Customer customer) {
+    public long getCustomerCount() {
         EntityManager em = entityManagerProvider.getEntityManager();
-        em.persist(customer);
+        return em.createQuery("SELECT COUNT(c) FROM Customer c", Long.class).getSingleResult();
     }
+    @Transactional
+    public List<Payment> getPaymentsByCustomerId(int id) {
+        EntityManager em = entityManagerProvider.getEntityManager();
+        TypedQuery<Payment> query = em.createQuery(
+                "SELECT p FROM Payment p WHERE p.customerByCustomerId.customerId = :customerId", Payment.class);
+        query.setParameter("customerId", id);
 
+        return query.getResultList();
+    }
 }
