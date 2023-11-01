@@ -20,12 +20,11 @@ public class PaymentRepository {
     @Inject
     private EntityManagerProvider entityManagerProvider;
     @Inject CustomerRepository customerRepository;
-
+    @Transactional
     public Payment createPayment(PaymentDTO paymentDTO) {
         EntityManager em = entityManagerProvider.getEntityManager();
-        //toDO is this the right approach? bzw clean
         Payment payment = new Payment();
-        payment.setCustomerByCustomerId(customerRepository.getCustomerById(paymentDTO.getCustomer()));
+        payment.setCustomerByCustomerId(customerRepository.getCustomerById( paymentDTO.getCustomer()));
         payment.setAmount(paymentDTO.getAmount());
         payment.setStaffId(paymentDTO.getStaff());
         payment.setRentalId(paymentDTO.getRental());
@@ -41,17 +40,17 @@ public class PaymentRepository {
         return payment;
     }
 
-
+    @Transactional
     public Payment getPaymentById(int id) {
         EntityManager em = entityManagerProvider.getEntityManager();
         return em.find(Payment.class, id);
     }
-
+    @Transactional
     public void deletePayment(int id) {
         EntityManager em = entityManagerProvider.getEntityManager();
         Payment payment = em.find(Payment.class, id);
         if (payment != null) {
-            em.remove(payment);
+            em.detach(payment);
         }
     }
 }

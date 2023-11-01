@@ -17,7 +17,7 @@ public class Address {
     @Column(name = "address_id", nullable = false)
     private int addressId;
     @Column(name = "address", nullable = false, length = 50)
-    private String address;
+    private String  address;
     @Column(name = "address2", nullable = true, length = 50)
     private String address2;
     @Column(name = "district", nullable = false, length = 20)
@@ -29,7 +29,8 @@ public class Address {
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
     @PrePersist
-    protected void onCreate() {
+    @PreUpdate
+    protected void onUpdate() {
         lastUpdate = new Timestamp(System.currentTimeMillis());
     }
 

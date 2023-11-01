@@ -1,6 +1,7 @@
 package services;
 
 import clienTargetRepository.StoreServiceClientProvider;
+import dtos.CustomerDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -14,10 +15,13 @@ import model.Customer;
 import model.Payment;
 import repository.AddressRepository;
 import repository.CustomerRepository;
+import util.DTOEntityUtil;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Path("/customers")
+@Path("customers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
@@ -30,20 +34,29 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @GET
-    public List<Customer> listCustomers(@QueryParam("page") @DefaultValue("1") int page) {
-        return customerRepository.listCustomers(page);
+    public Response listCustomers(@QueryParam("page") @DefaultValue("1") int page) {
+        List<Customer> customers = customerRepository.listCustomers(page);
+        List<CustomerDTO> customersDTOS = customers.stream().map(this::createCustomerDTO).collect(Collectors.toList());
+        return Response.ok(customersDTOS).build();
+    }
+
+    private CustomerDTO createCustomerDTO(Customer customer) {
+        return DTOEntityUtil.createCustomerDTO(customer);
     }
 
     @GET
     @Path("/{id}")
     public Response getCustomerById(@PathParam("id") int id) {
-        Customer customer = customerRepository.getCustomerById(id);
-        if (customer == null) {
+        Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.getCustomerById(id));
+
+        if (customerOptional.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Customer not found.")
                     .build();
         }
-        return Response.ok(customer).build();
+        Customer customer = customerOptional.get();
+        CustomerDTO customerDTO = this.createCustomerDTO(customer);
+        return Response.ok(customerDTO).build();
     }
 
 
@@ -54,30 +67,16 @@ public class CustomerService {
                 .path(String.valueOf(storeId))
                 .request(MediaType.APPLICATION_JSON)
                 .get();
+
         if (storeResponse.getStatus() != Response.Status.OK.getStatusCode()) {
             return Response.status(Response.Status.NOT_FOUND).entity("Bad customer data.").build();
         }
-        customerRepository.createCustomer(customer, addressId, storeId);
+
+       customerRepository.createCustomer(customer, addressId, storeId);
         return Response.status(Response.Status.CREATED)
                 .entity("customer created.")
                 .build();
     }
-
-    @DELETE
-    @Path("/{id}")
-    public Response deleteCustomer(@PathParam("id") int id) {
-        Customer customer = customerRepository.getCustomerById(id);
-        if (customer == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Customer not found.")
-                    .build();
-        }
-        customerRepository.deleteCustomer(id);
-        return Response.status(Response.Status.NO_CONTENT)
-                .entity("Customer deleted.")
-                .build();
-    }
-
     @GET
     @Path("/count")
     public Response getCustomerCount() {
@@ -88,12 +87,12 @@ public class CustomerService {
     @GET
     @Path("/{id}/payments")
     public List<Payment> getPaymentsForCustomer(@PathParam("id") int id) {
-        Customer customer = customerRepository.getCustomerById(id);
-        if (customer == null) {
+        Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.getCustomerById(id));
+
+        if (customerOptional.isEmpty()) {
             throw new NotFoundException("Customer not found");
         }
+
         return customerRepository.getPaymentsByCustomerId(id);
     }
-
-
 }

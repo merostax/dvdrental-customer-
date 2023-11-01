@@ -27,10 +27,10 @@ public class PaymentValidator {
     private StoreServiceClientProvider storeServiceClientProvider;
     public boolean isValidPayment(PaymentDTO paymentDTO) {
         return isValidAmount(paymentDTO.getAmount()) &&
-                isValidCustomer(paymentDTO.getCustomer()) &&
+                isValidCustomer( paymentDTO.getCustomer()) &&
                 isValidStaff(paymentDTO.getStaff()) &&
                 isValidPaymentDate(paymentDTO.getDate()) &&
-                isValidRental(paymentDTO.getRental());
+                isValidRental( paymentDTO.getRental());
     }
 
     public boolean isValidAmount(@DecimalMin("0.0") BigDecimal amount) {
@@ -48,10 +48,8 @@ public class PaymentValidator {
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         if (storeResponse.getStatus() == Response.Status.OK.getStatusCode()) {
-            // rental exists
             return true;
         } else {
-            // rental does not exist
             throw new NotFoundException("Rental with ID " + rentalId + " not found.");
         }
     }
@@ -63,21 +61,21 @@ public class PaymentValidator {
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         if (storeResponse.getStatus() == Response.Status.OK.getStatusCode()) {
-            // Staff exists
             return true;
         } else {
-            // Staff does not exist
             throw new NotFoundException("Staff with ID " + staffId + " not found.");
         }
     }
 
     public boolean isValidPaymentDate(String paymentDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        dateFormat.setLenient(false);
+
         try {
-            Timestamp timestamp = new Timestamp(dateFormat.parse(paymentDate).getTime());
-            return true; // Date parsing successful, it's a valid date
+            dateFormat.parse(paymentDate);
+            return true;
         } catch (ParseException e) {
-            return false; // Date parsing failed, it's an invalid date
+            return false;
         }
     }
 }

@@ -21,7 +21,7 @@ public class CustomerRepository {
     private EntityManagerProvider entityManagerProvider;
 
     @Transactional
-    public List<Customer> listCustomers(int page) {
+    public List<Customer>listCustomers(int page) {
         EntityManager em = entityManagerProvider.getEntityManager();
         return em.createQuery("SELECT c FROM Customer c", Customer.class)
                 .setFirstResult((page - 1) * 20)

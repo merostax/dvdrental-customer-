@@ -14,13 +14,12 @@ public class CityRepository {
 
     public City findCityByName(String cityName) {
         try {
-            return em.createQuery("SELECT c FROM City c WHERE c.city = :cityName", City.class)
+            return em.createQuery("SELECT c FROM City c WHERE LOWER(c.city) = LOWER(:cityName)", City.class)
                     .setParameter("cityName", cityName)
                     .getSingleResult();
         } catch (NoResultException e) {
-            return null; // Stadt wurde nicht gefunden
+            return null;
         }
     }
 
-    // Weitere Methoden für das Erstellen, Aktualisieren und Löschen von Städten
 }

@@ -15,13 +15,13 @@ public class CountryRepository {
     private EntityManager em;
     public Country findCountryByName(String countryName) {
         try {
-            return em.createQuery("SELECT c FROM Country c WHERE c.country = :countryName", Country.class)
+            return em.createQuery("SELECT c FROM Country c WHERE LOWER(c.country) = LOWER(:countryName)", Country.class)
                     .setParameter("countryName", countryName)
                     .getSingleResult();
         } catch (NoResultException e) {
-            return null; // Land wurde nicht gefunden
+            return null;
         }
     }
 
-    // Weitere Methoden für das Erstellen, Aktualisieren und Löschen von Ländern
+
 }
