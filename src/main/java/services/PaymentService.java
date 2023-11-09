@@ -14,8 +14,11 @@ import model.Customer;
 import model.Payment;
 import repository.PaymentRepository;
 import util.DTOEntityUtil;
+import util.Hrefs;
 import validators.PaymentValidator;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Path("payments")
@@ -35,6 +38,7 @@ public class PaymentService {
             if (paymentValidator.isValidPayment(paymentDTO)) {
               Payment payment=  paymentRepository.createPayment(paymentDTO);
                 return Response.status(Response.Status.CREATED)
+                        .header("Location", Hrefs.CUSTOMER.getHref()+"payments/"+payment.getPaymentId())
                         .entity(payment)
                         .build();
             } else {
@@ -76,12 +80,28 @@ public class PaymentService {
                     .entity("Payment not found.")
                     .build();
         }
+        Payment deletedPayment = paymentRepository.getPaymentById(id);
+        BigDecimal amountToGiveToCustomer = deletedPayment.getAmount();
+        PaymentDTO reversePaymentDTO = new PaymentDTO();
+        reversePaymentDTO.setAmount(amountToGiveToCustomer.negate());
+        reversePaymentDTO.setCustomer(deletedPayment.getCustomerByCustomerId().getCustomerId());
+        reversePaymentDTO.setStaff(deletedPayment.getStaffId());
+        reversePaymentDTO.setRental(deletedPayment.getRentalId());
+        reversePaymentDTO.setDate(new Timestamp(System.currentTimeMillis()).toString());
+        Response createPaymentResponse = createPayment(reversePaymentDTO);
+        if (createPaymentResponse.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL) {
+            String createPaymentLocation = createPaymentResponse.getHeaderString("Location");
+            paymentRepository.deletePayment(id);
 
-        paymentRepository.deletePayment(id);
-        return Response.status(Response.Status.NO_CONTENT)
-                .entity("Payment was deleted for accounting.")
-                .build();
+            return Response.status(Response.Status.NO_CONTENT)
+                    .header("Link", "<" + createPaymentLocation + ">")
+                    .build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Failed to create reverse payment.")
+                    .build();
+        }
+    }
     }
 
-}
 

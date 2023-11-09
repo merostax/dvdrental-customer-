@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -17,6 +18,6 @@ public class CustomerDTO {
     private String email;
     private String firstName;
     private String lastName;
-    private String store;
-    private String address;
+    private Map store;
+    private Map address;
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 public class PaymentDTOGET {
     private int id;
     private BigDecimal amount;
-    private String rental;
-    private String customer;
-    private String staff;
+    private Map rental;
+    private Map customer;
+    private Map staff;
 }

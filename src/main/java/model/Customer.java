@@ -31,6 +31,11 @@ public class Customer {
     private Date createDate;
     @Column(name = "last_update", nullable = true)
     private Timestamp lastUpdate;
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdate = new Timestamp(System.currentTimeMillis());
+    }
     @Column(name = "active", nullable = true)
     private Integer active;
 

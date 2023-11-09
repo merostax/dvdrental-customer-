@@ -22,7 +22,11 @@ public class Country {
     private String country;
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
-
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdate = new Timestamp(System.currentTimeMillis());
+    }
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<City> cities;
 }

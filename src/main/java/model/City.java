@@ -20,7 +20,11 @@ public class City {
 
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
-
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdate = new Timestamp(System.currentTimeMillis());
+    }
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;

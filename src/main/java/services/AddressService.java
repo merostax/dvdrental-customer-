@@ -15,6 +15,7 @@ import repository.AddressRepository;
 import repository.CityRepository;
 import repository.CountryRepository;
 import util.DTOEntityUtil;
+import util.Hrefs;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -79,7 +80,7 @@ public class AddressService{
         if (createdAddress != null) {
             return Response.status(Response.Status.CREATED)
                     .entity("Address created.")
-                    .header("Location", "/addresses/" + createdAddress.getAddressId())
+                    .header("Location", Hrefs.CUSTOMER.getHref()+"addresses/" + createdAddress.getAddressId())
                     .build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

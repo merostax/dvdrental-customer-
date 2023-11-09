@@ -33,4 +33,9 @@ public class Payment {
 
     @Column(name = "payment_date", nullable = false)
     private Timestamp paymentDate;
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        paymentDate = new Timestamp(System.currentTimeMillis());
+    }
 }

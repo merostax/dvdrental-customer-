@@ -8,6 +8,9 @@ import model.Address;
 import model.Customer;
 import model.Payment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequestScoped
 public class DTOEntityUtil {
 
@@ -38,24 +41,41 @@ public class DTOEntityUtil {
     public static CustomerDTO createCustomerDTO(Customer customer) {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setId(customer.getCustomerId());
-        customerDTO.setAddress(Hrefs.CUSTOMER.getHref()+"addresses/"+customer.getAddress().getAddressId());
+        Map<String, String> addressHref = new HashMap<>();
+        addressHref.put("href", Hrefs.CUSTOMER.getHref() + "addresses/" + customer.getAddress().getAddressId());
+        customerDTO.setAddress(addressHref);
+
         customerDTO.setActive(customer.getActive());
         customerDTO.setEmail(customer.getEmail());
         customerDTO.setCreateDate(customer.getCreateDate());
         customerDTO.setActivebool(customer.isActivebool());
         customerDTO.setLastName(customer.getLastName());
         customerDTO.setFirstName(customer.getFirstName());
-        customerDTO.setStore(Hrefs.STORE.getHref()+"stores/"+customer.getStoreId());
+
+        Map<String, String> storeHref = new HashMap<>();
+        storeHref.put("href", Hrefs.STORE.getHref() + "stores/" + customer.getStoreId());
+        customerDTO.setStore(storeHref);
+
         return customerDTO;
     }
 
     public static PaymentDTOGET createPaymentDTO(Payment payment) {
-        PaymentDTOGET paymentDTOGET= new PaymentDTOGET();
+        PaymentDTOGET paymentDTOGET = new PaymentDTOGET();
         paymentDTOGET.setId(payment.getPaymentId());
         paymentDTOGET.setAmount(payment.getAmount());
-        paymentDTOGET.setCustomer(Hrefs.CUSTOMER.getHref()+"customers/"+payment.getCustomerByCustomerId().getCustomerId());
-        paymentDTOGET.setStaff(Hrefs.STORE.getHref()+"staff/"+payment.getStaffId());
-        paymentDTOGET.setRental(Hrefs.STORE.getHref()+"rentals/"+payment.getRentalId());
+
+        Map<String, String> customerHref = new HashMap<>();
+        customerHref.put("href", Hrefs.CUSTOMER.getHref() + "customers/" + payment.getCustomerByCustomerId().getCustomerId());
+        paymentDTOGET.setCustomer(customerHref);
+
+        Map<String, String> staffHref = new HashMap<>();
+        staffHref.put("href", Hrefs.STORE.getHref() + "staff/" + payment.getStaffId());
+        paymentDTOGET.setStaff(staffHref);
+
+        Map<String, String> rentalHref = new HashMap<>();
+        rentalHref.put("href", Hrefs.STORE.getHref() + "rentals/" + payment.getRentalId());
+        paymentDTOGET.setRental(rentalHref);
+
         return paymentDTOGET;
     }
 }

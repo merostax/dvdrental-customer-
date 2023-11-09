@@ -33,7 +33,9 @@ public class PaymentRepository {
             Date parsedDate = dateFormat.parse(paymentDTO.getDate());
             Timestamp timestamp = new Timestamp(parsedDate.getTime());
             payment.setPaymentDate(timestamp);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
+            System.out.println(43);
         }
 
         em.persist(payment);
