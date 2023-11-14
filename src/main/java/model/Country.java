@@ -1,12 +1,13 @@
 package model;
 
-import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.Set;
+
 
 @Entity
 @Getter
@@ -17,13 +18,15 @@ public class Country {
     @Id
     @Column(name = "country_id", nullable = false)
     private int countryId;
-    @Basic
     @Column(name = "country", nullable = false, length = 50)
     private String country;
-    @Basic
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
-    @OneToMany(mappedBy = "countryByCountryId")
-    private Collection<City> citiesByCountryId;
-
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdate = new Timestamp(System.currentTimeMillis());
+    }
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<City> cities;
 }

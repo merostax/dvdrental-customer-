@@ -1,12 +1,10 @@
 package model;
 
-import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
+import jakarta.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
 @Getter
@@ -17,19 +15,18 @@ public class City {
     @Id
     @Column(name = "city_id", nullable = false)
     private int cityId;
-    @Basic
     @Column(name = "city", nullable = false, length = 50)
     private String city;
-    @Basic
-    @Column(name = "country_id", nullable = false)
-    private int countryId;
-    @Basic
+
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
-    @OneToMany(mappedBy = "cityByCityId")
-    private Collection<Address> addressesByCityId;
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdate = new Timestamp(System.currentTimeMillis());
+    }
     @ManyToOne
-    @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
-    private Country countryByCountryId;
+    @JoinColumn(name = "country_id")
+    private Country country;
 
 }

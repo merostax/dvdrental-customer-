@@ -1,28 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
-             version="3.0">
-    <persistence-unit name="default">
+             version="2.1"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
-        <class>model.Address</class>
-        <class>model.City</class>
-        <class>model.Country</class>
-        <class>model.Customer</class>
-        <class>model.Payment</class>
-        <properties>
-            <property name="toplink.jdbc.url" value="jdbc:postgresql://localhost:54323/customer-db"/>
-            <property name="toplink.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="toplink.jdbc.user" value="postgres"/>
-            <property name="toplink.jdbc.password" value="secret"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:54323/customer-db"/>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.connection.username" value="postgres"/>
-            <property name="hibernate.connection.password" value="secret"/>
-            <property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost:54323/customer-db"/>
-            <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
-            <property name="openjpa.ConnectionUserName" value="postgres"/>
-            <property name="openjpa.ConnectionPassword" value="secret"/>
-        </properties>
+    <persistence-unit name="CustomerDB">
+        <jta-data-source>java:jboss/datasources/CustomerDBDS</jta-data-source>
+        <!-- Other persistence unit settings -->
     </persistence-unit>
+
 </persistence>

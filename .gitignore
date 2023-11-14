@@ -1,2 +1,4 @@
 /.idea/
-/starter.iml
+/target/
+starter.iml
+customer.iml
