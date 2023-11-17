@@ -1,17 +1,11 @@
 package model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Getter
-@Setter
-@EqualsAndHashCode
 public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -42,4 +36,84 @@ public class Customer {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    public int getCustomerId() {
+        return this.customerId;
+    }
+
+    public void setCustomerId(final int customerId) {
+        this.customerId = customerId;
+    }
+
+    public int getStoreId() {
+        return this.storeId;
+    }
+
+    public void setStoreId(final int storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    public boolean isActivebool() {
+        return this.activebool;
+    }
+
+    public void setActivebool(final boolean activebool) {
+        this.activebool = activebool;
+    }
+
+    public Date getCreateDate() {
+        return this.createDate;
+    }
+
+    public void setCreateDate(final Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Timestamp getLastUpdate() {
+        return this.lastUpdate;
+    }
+
+    public void setLastUpdate(final Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getActive() {
+        return this.active;
+    }
+
+    public void setActive(final Integer active) {
+        this.active = active;
+    }
+
+    public Address getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(final Address address) {
+        this.address = address;
+    }
 }

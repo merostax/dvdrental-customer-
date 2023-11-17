@@ -1,18 +1,13 @@
 package model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 
 @Entity
-@Getter
-@Setter
-@EqualsAndHashCode
 public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -28,5 +23,37 @@ public class Country {
         lastUpdate = new Timestamp(System.currentTimeMillis());
     }
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<City> cities;
+    private List<City> cities;
+
+    public int getCountryId() {
+        return this.countryId;
+    }
+
+    public void setCountryId(final int countryId) {
+        this.countryId = countryId;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(final String country) {
+        this.country = country;
+    }
+
+    public Timestamp getLastUpdate() {
+        return this.lastUpdate;
+    }
+
+    public void setLastUpdate(final Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public List<City> getCities() {
+        return this.cities;
+    }
+
+    public void setCities(final List<City> cities) {
+        this.cities = cities;
+    }
 }

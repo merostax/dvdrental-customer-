@@ -1,17 +1,11 @@
 package model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@Getter
-@Setter
-@EqualsAndHashCode
 public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -37,5 +31,53 @@ public class Payment {
     @PreUpdate
     protected void onUpdate() {
         paymentDate = new Timestamp(System.currentTimeMillis());
+    }
+
+    public int getPaymentId() {
+        return this.paymentId;
+    }
+
+    public void setPaymentId(final int paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public Customer getCustomerByCustomerId() {
+        return this.customerByCustomerId;
+    }
+
+    public void setCustomerByCustomerId(final Customer customerByCustomerId) {
+        this.customerByCustomerId = customerByCustomerId;
+    }
+
+    public int getStaffId() {
+        return this.staffId;
+    }
+
+    public void setStaffId(final int staffId) {
+        this.staffId = staffId;
+    }
+
+    public int getRentalId() {
+        return this.rentalId;
+    }
+
+    public void setRentalId(final int rentalId) {
+        this.rentalId = rentalId;
+    }
+
+    public BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    public void setAmount(final BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public Timestamp getPaymentDate() {
+        return this.paymentDate;
+    }
+
+    public void setPaymentDate(final Timestamp paymentDate) {
+        this.paymentDate = paymentDate;
     }
 }

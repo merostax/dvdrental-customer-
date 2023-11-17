@@ -1,15 +1,9 @@
 package model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Getter
-@Setter
-@EqualsAndHashCode
 public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,4 +23,35 @@ public class City {
     @JoinColumn(name = "country_id")
     private Country country;
 
+    public int getCityId() {
+        return this.cityId;
+    }
+
+    public void setCityId(final int cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(final String city) {
+        this.city = city;
+    }
+
+    public Timestamp getLastUpdate() {
+        return this.lastUpdate;
+    }
+
+    public void setLastUpdate(final Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Country getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(final Country country) {
+        this.country = country;
+    }
 }

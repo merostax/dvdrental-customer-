@@ -1,15 +1,9 @@
 package model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 
-@Getter
-@Setter
-@EqualsAndHashCode
 @Entity
 public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +32,67 @@ public class Address {
     @JoinColumn(name = "city_id")
     private City city;
 
+    public int getAddressId() {
+        return this.addressId;
+    }
+
+    public void setAddressId(final int addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
+    public String getAddress2() {
+        return this.address2;
+    }
+
+    public void setAddress2(final String address2) {
+        this.address2 = address2;
+    }
+
+    public String getDistrict() {
+        return this.district;
+    }
+
+    public void setDistrict(final String district) {
+        this.district = district;
+    }
+
+    public String getPostalCode() {
+        return this.postalCode;
+    }
+
+    public void setPostalCode(final String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getPhone() {
+        return this.phone;
+    }
+
+    public void setPhone(final String phone) {
+        this.phone = phone;
+    }
+
+    public Timestamp getLastUpdate() {
+        return this.lastUpdate;
+    }
+
+    public void setLastUpdate(final Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public City getCity() {
+        return this.city;
+    }
+
+    public void setCity(final City city) {
+        this.city = city;
+    }
 }
