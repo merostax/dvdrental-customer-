@@ -4,9 +4,9 @@ import dtos.PaymentDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import model.Payment;
-import util.EntityManagerProvider;
 
 import java.util.Date;
 import java.sql.Timestamp;
@@ -17,12 +17,12 @@ import java.text.SimpleDateFormat;
 @Transactional
 public class PaymentRepository {
 
-    @Inject
-    private EntityManagerProvider entityManagerProvider;
+    @PersistenceContext
+    EntityManager em;
+
     @Inject CustomerRepository customerRepository;
     @Transactional
     public Payment createPayment(PaymentDTO paymentDTO) {
-        EntityManager em = entityManagerProvider.getEntityManager();
         Payment payment = new Payment();
         payment.setCustomerByCustomerId(customerRepository.getCustomerById( paymentDTO.getCustomer()));
         payment.setAmount(paymentDTO.getAmount());
@@ -44,12 +44,10 @@ public class PaymentRepository {
 
     @Transactional
     public Payment getPaymentById(int id) {
-        EntityManager em = entityManagerProvider.getEntityManager();
         return em.find(Payment.class, id);
     }
     @Transactional
     public void deletePayment(int id) {
-        EntityManager em = entityManagerProvider.getEntityManager();
         Payment payment = em.find(Payment.class, id);
         if (payment != null) {
             em.detach(payment);

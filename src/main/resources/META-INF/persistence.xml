@@ -4,9 +4,12 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
-    <persistence-unit name="CustomerDB">
-        <jta-data-source>java:jboss/datasources/CustomerDBDS</jta-data-source>
-        <!-- Other persistence unit settings -->
+    <persistence-unit name="CustomerDB" transaction-type="JTA">
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/dvdrentalcustomer"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
+        </properties>
     </persistence-unit>
-
 </persistence>
