@@ -6,6 +6,7 @@
 
     <persistence-unit name="CustomerDB" transaction-type="JTA">
         <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/dvdrentalcustomer"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
