@@ -79,7 +79,7 @@ public class AddressService{
         if (createdAddress != null) {
             return Response.status(Response.Status.CREATED)
                     .entity("Address created.")
-                    .header("Location", Hrefs.CUSTOMER.getHref()+"addresses/" + createdAddress.getAddressId())
+                    .header("Location", Hrefs.CUSTOMER.getHref()!=null?Hrefs.CUSTOMER.getHref()+"addresses/" + createdAddress.getAddressId():"")
                     .build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

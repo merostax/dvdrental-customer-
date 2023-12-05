@@ -38,7 +38,7 @@ public class PaymentService {
             if (paymentValidator.isValidPayment(paymentDTO)) {
               Payment payment=  paymentRepository.createPayment(paymentDTO);
                 return Response.status(Response.Status.CREATED)
-                        .header("Location", Hrefs.CUSTOMER.getHref()+"payments/"+payment.getPaymentId())
+                        .header("Location", Hrefs.CUSTOMER.getHref()!=null?Hrefs.CUSTOMER.getHref()+"payments/"+payment.getPaymentId():"")
                         .entity(payment)
                         .build();
             } else {

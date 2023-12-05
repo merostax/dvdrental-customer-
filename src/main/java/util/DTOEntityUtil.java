@@ -42,7 +42,7 @@ public class DTOEntityUtil {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setId(customer.getCustomerId());
         Map<String, String> addressHref = new HashMap<>();
-        addressHref.put("href", Hrefs.CUSTOMER.getHref() + "addresses/" + customer.getAddress().getAddressId());
+        addressHref.put("href", Hrefs.CUSTOMER.getHref()!=null?Hrefs.CUSTOMER.getHref() + "addresses/" + customer.getAddress().getAddressId():"");
         customerDTO.setAddress(addressHref);
 
         customerDTO.setActive(customer.getActive());
@@ -53,7 +53,7 @@ public class DTOEntityUtil {
         customerDTO.setFirstName(customer.getFirstName());
 
         Map<String, String> storeHref = new HashMap<>();
-        storeHref.put("href", Hrefs.STORE.getHref() + "stores/" + customer.getStoreId());
+        storeHref.put("href", Hrefs.STORE.getHref()!=null?Hrefs.STORE.getHref() + "stores/" + customer.getStoreId():"");
         customerDTO.setStore(storeHref);
 
         return customerDTO;
@@ -65,15 +65,15 @@ public class DTOEntityUtil {
         paymentDTOGET.setAmount(payment.getAmount());
 
         Map<String, String> customerHref = new HashMap<>();
-        customerHref.put("href", Hrefs.CUSTOMER.getHref() + "customers/" + payment.getCustomerByCustomerId().getCustomerId());
+        customerHref.put("href", Hrefs.CUSTOMER.getHref()!=null?Hrefs.CUSTOMER.getHref() + "customers/" + payment.getCustomerByCustomerId().getCustomerId():"");
         paymentDTOGET.setCustomer(customerHref);
 
         Map<String, String> staffHref = new HashMap<>();
-        staffHref.put("href", Hrefs.STORE.getHref() + "staff/" + payment.getStaffId());
+        staffHref.put("href", Hrefs.STORE.getHref()!=null?Hrefs.STORE.getHref() + "staff/" + payment.getStaffId():"");
         paymentDTOGET.setStaff(staffHref);
 
         Map<String, String> rentalHref = new HashMap<>();
-        rentalHref.put("href", Hrefs.STORE.getHref() + "rentals/" + payment.getRentalId());
+        rentalHref.put("href", Hrefs.STORE.getHref()!=null?Hrefs.STORE.getHref() + "rentals/" + payment.getRentalId():"");
         paymentDTOGET.setRental(rentalHref);
 
         return paymentDTOGET;
