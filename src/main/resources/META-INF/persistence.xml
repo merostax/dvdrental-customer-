@@ -10,7 +10,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/dvdrentalcustomer"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="trust"/>
         </properties>
     </persistence-unit>
 </persistence>
