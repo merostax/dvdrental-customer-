@@ -1,6 +1,5 @@
 package services;
 
-import dtos.CustomerDTO;
 import dtos.PaymentDTO;
 import dtos.PaymentDTOGET;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -10,7 +9,6 @@ import jakarta.validation.ValidationException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import model.Customer;
 import model.Payment;
 import repository.PaymentRepository;
 import util.DTOEntityUtil;
@@ -26,7 +24,10 @@ import java.util.Optional;
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class PaymentService {
-
+    @Inject
+    Hrefs hrefs;
+    @Inject
+    DTOEntityUtil DTOEntityUtil;
     @Inject
     private PaymentRepository paymentRepository;
     @Inject
@@ -36,9 +37,9 @@ public class PaymentService {
     public Response createPayment(@Valid PaymentDTO paymentDTO) {
         try {
             if (paymentValidator.isValidPayment(paymentDTO)) {
-              Payment payment=  paymentRepository.createPayment(paymentDTO);
+                Payment payment = paymentRepository.createPayment(paymentDTO);
                 return Response.status(Response.Status.CREATED)
-                        .header("Location", Hrefs.CUSTOMER.getHref()!=null?Hrefs.CUSTOMER.getHref()+"payments/"+payment.getPaymentId():"")
+                        .header("Location", hrefs.getCustomerHref() != null ? hrefs.getCustomerHref() + "payments/" + payment.getPaymentId() : "")
                         .entity(payment)
                         .build();
             } else {
@@ -63,9 +64,10 @@ public class PaymentService {
                     .entity("Payment not found.")
                     .build();
         }
-       PaymentDTOGET paymentDTOGET = this.createPaymentDTO(paymentOptional.get());
+        PaymentDTOGET paymentDTOGET = this.createPaymentDTO(paymentOptional.get());
         return Response.ok(paymentDTOGET).build();
     }
+
     private PaymentDTOGET createPaymentDTO(Payment payment) {
         return DTOEntityUtil.createPaymentDTO(payment);
     }
@@ -102,6 +104,6 @@ public class PaymentService {
                     .build();
         }
     }
-    }
+}
 
 

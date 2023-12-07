@@ -5,20 +5,15 @@ import dtos.CustomerDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import model.Address;
 import model.Customer;
 import model.Payment;
-import repository.AddressRepository;
 import repository.CustomerRepository;
 import util.DTOEntityUtil;
+import util.Hrefs;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Path("customers")
@@ -28,10 +23,13 @@ import java.util.stream.Collectors;
 public class CustomerService {
     @Inject
     StoreServiceClientProvider storeServiceClientProvider;
-
+    @Inject
+    DTOEntityUtil DTOEntityUtil;
 
     @Inject
     private CustomerRepository customerRepository;
+    @Inject
+    Hrefs hrefs;
 
     @GET
     public Response listCustomers(@QueryParam("page") @DefaultValue("1") int page) {
@@ -72,11 +70,12 @@ public class CustomerService {
             return Response.status(Response.Status.NOT_FOUND).entity("Bad customer data.").build();
         }
 
-       customerRepository.createCustomer(customer, addressId, storeId);
+        customerRepository.createCustomer(customer, addressId, storeId);
         return Response.status(Response.Status.CREATED)
                 .entity("customer created.")
                 .build();
     }
+
     @GET
     @Path("/count")
     public Response getCustomerCount() {
@@ -86,13 +85,21 @@ public class CustomerService {
 
     @GET
     @Path("/{id}/payments")
-    public List<Payment> getPaymentsForCustomer(@PathParam("id") int id) {
+    public List<Map<String, String>> getPaymentsForCustomer(@PathParam("id") int id) {
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.getCustomerById(id));
 
         if (customerOptional.isEmpty()) {
             throw new NotFoundException("Customer not found");
         }
+        List<Payment> payments = customerRepository.getPaymentsByCustomerId(id);
+        List<Map<String, String>> paymentHrefs = payments.stream()
+                .map(payment -> {
+                    Map<String, String> paymentHref = new HashMap<>();
+                    paymentHref.put("href",hrefs.getCustomerHref()!=null? hrefs.getCustomerHref()+"payments/" + payment.getPaymentId():"");
+                    return paymentHref;
+                })
+                .collect(Collectors.toList());
 
-        return customerRepository.getPaymentsByCustomerId(id);
+        return paymentHrefs;
     }
 }

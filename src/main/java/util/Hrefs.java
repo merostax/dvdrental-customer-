@@ -1,17 +1,42 @@
 package util;
 
-public enum Hrefs {
-    CUSTOMER("http://localhost:8083/"),
-    STORE("http://localhost:8082/"),
-    FILM("http://localhost:8081/");
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
-    private final String href;
+@ApplicationScoped
+public class Hrefs {
 
-    Hrefs(String href) {
-        this.href = href;
+    private String customerHref;
+    private String storeHref;
+    private String filmHref;
+
+    @PostConstruct
+    public void initialize() {
+        this.customerHref = getPropertyWithWarning("customer.service.uri", "Customer");
+        this.storeHref = getPropertyWithWarning("store.service.uri", "Store");
+        this.filmHref = getPropertyWithWarning("film.service.uri", "Film");
     }
 
-    public String getHref() {
-        return href;
+    private String getPropertyWithWarning(String propertyName, String serviceName) {
+        String propertyValue = System.getProperty(propertyName);
+
+        if (propertyValue == null || propertyValue.isEmpty()) {
+            System.out.println("Warning: " + serviceName + " service URI not set. "
+                    + "Set it using system property -D" + propertyName + "=http://your-service-uri");
+        }
+
+        return propertyValue;
+    }
+
+    public String getCustomerHref() {
+        return customerHref;
+    }
+
+    public String getStoreHref() {
+        return storeHref;
+    }
+
+    public String getFilmHref() {
+        return filmHref;
     }
 }

@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class AddressService{
-
+   @Inject DTOEntityUtil DTOEntityUtil;
+   @Inject Hrefs hrefs;
     @Inject
     private AddressRepository addressRepository;
     @Inject
@@ -79,7 +80,7 @@ public class AddressService{
         if (createdAddress != null) {
             return Response.status(Response.Status.CREATED)
                     .entity("Address created.")
-                    .header("Location", Hrefs.CUSTOMER.getHref()!=null?Hrefs.CUSTOMER.getHref()+"addresses/" + createdAddress.getAddressId():"")
+                    .header("Location", hrefs.getCustomerHref()!=null?hrefs.getStoreHref()+"addresses/" + createdAddress.getAddressId():"")
                     .build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

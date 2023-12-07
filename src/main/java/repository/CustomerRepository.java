@@ -54,7 +54,6 @@ public class CustomerRepository {
     public long getCustomerCount() {
         return em.createQuery("SELECT COUNT(c) FROM Customer c", Long.class).getSingleResult();
     }
-    @Transactional
     public List<Payment> getPaymentsByCustomerId(int id) {
         TypedQuery<Payment> query = em.createQuery(
                 "SELECT p FROM Payment p WHERE p.customerByCustomerId.customerId = :customerId", Payment.class);
