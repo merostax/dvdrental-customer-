@@ -91,7 +91,7 @@ public class PaymentService {
         reversePaymentDTO.setRental(deletedPayment.getRentalId());
         reversePaymentDTO.setDate(new Timestamp(System.currentTimeMillis()).toString());
         Response createPaymentResponse = createPayment(reversePaymentDTO);
-        if (createPaymentResponse.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL) {
+        if (createPaymentResponse.getStatus()==201) {
             String createPaymentLocation = createPaymentResponse.getHeaderString("Location");
             paymentRepository.deletePayment(id);
 
